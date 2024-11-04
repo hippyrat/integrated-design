@@ -1,1 +1,0 @@
-# it is just a git test written by xiji lcx
