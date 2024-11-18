@@ -1,5 +1,9 @@
 import numpy as np
 
+"""
+包含数据节点、常量节点、计算节点，和由计算节点衍生的四种四则运算节点
+"""
+
 class DataNode:
     def __init__(self, data, requires_grad=True):
         # 初始化数据节点
@@ -9,6 +13,13 @@ class DataNode:
         self.pre_node = None    # 前驱节点
         self.back_node = [] # 后继节点
         self.if_backward = set()    # 标记是否进行了反向传播
+        self.my_map = None  # 计算图引用
+
+    def set_my_map(self, my_map):
+        """
+        设置所属的计算图
+        """
+        self.my_map = my_map
 
     def set_pre_node(self, pre_node):
         self.pre_node = pre_node
@@ -42,6 +53,13 @@ class CalNode:
         self.pre_nodes = [] # 输入节点
         self.back_node = None  # 输出节点
         self.if_forward = set() # 用于判断是否进行前向传播
+        self.my_map = None  # 计算图引用
+
+    def set_my_map(self, my_map):
+        """
+        设置所属的计算图
+        """
+        self.my_map = my_map
 
     def set_pre_nodes(self, pre_nodes):
         self.pre_nodes = pre_nodes
