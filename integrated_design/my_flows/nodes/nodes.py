@@ -116,7 +116,7 @@ class SubNode(CalNode):
         if self.y.requires_grad:
             self.y.grad -= grad_output
 
-# 惩罚节点
+# 乘法节点
 class MulNode(CalNode):
     def forward(self, x, y):
         self.x = x
