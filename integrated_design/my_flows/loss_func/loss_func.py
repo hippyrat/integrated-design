@@ -14,35 +14,33 @@ class LossFunction:
         raise NotImplementedError
 
 class CELossNode(LossFunction):
-    def forward(self, logits, labels):
+    def forward(self, predictions, labels):
         """
         前向传播：计算交叉熵损失
         """
+
         # 计算 softmax
-        exp_logits = np.exp(logits - np.max(logits, axis=1, keepdims=True))  # 防止数值溢出
-        self.probabilities = exp_logits / np.sum(exp_logits, axis=1, keepdims=True)
+        exp_predictions = np.exp(predictions - np.max(predictions, axis=1, keepdims=True))  # 防止数值溢出
+        self.probabilities = exp_predictions / np.sum(exp_predictions, axis=1, keepdims=True)
 
         # 交叉熵损失
-        batch_size = logits.shape[0]
+        batch_size = predictions.shape[0]
         loss = -np.sum(labels * np.log(self.probabilities + 1e-10)) / batch_size
         return loss
 
     def backward(self):
         """
-        反向传播：计算 logits 的梯度
+        反向传播：计算 predictions 的梯度
         """
-        batch_size = self.logits.shape[0]
-        self.grad_logits = (self.probabilities - self.labels) / batch_size
-        return self.grad_logits
+        batch_size = self.predictions.shape[0]
+        self.grad_predictions = (self.probabilities - self.predictions) / batch_size
+        return self.grad_predictions
 
 class MSELoss(LossFunction):
     def forward(self, predictions, targets):
         """
         前向传播：计算均方误差损失
         """
-        # 保存预测值和真实值
-        self.predictions = predictions
-        self.targets = targets
 
         loss = np.mean((predictions - targets) ** 2)
         return loss
