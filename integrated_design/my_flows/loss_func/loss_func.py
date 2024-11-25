@@ -14,7 +14,7 @@ class LossFunction:
         raise NotImplementedError
 
 class CELossNode(LossFunction):
-    def forward(self, predictions, labels):
+    def forward(self, predictions, targets):
         """
         前向传播：计算交叉熵损失
         """
@@ -25,7 +25,7 @@ class CELossNode(LossFunction):
 
         # 交叉熵损失
         batch_size = predictions.shape[0]
-        loss = -np.sum(labels * np.log(self.probabilities + 1e-10)) / batch_size
+        loss = -np.sum(targets * np.log(self.probabilities + 1e-10)) / batch_size
         return loss
 
     def backward(self):
