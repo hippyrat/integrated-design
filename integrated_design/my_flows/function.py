@@ -1,11 +1,8 @@
 # function.py
-from context import Context
+from .context import Context
 import numpy as np
-from tensor import Tensor  # 引入 Tensor 类，后面定义 Add 时需要返回一个 Tensor 实例
+from .tensor import Tensor  # 使用相对导入
 
-"""
-Function 是所有操作的基类，Add 是具体的加法操作。
-"""
 class Function:
     @staticmethod
     def apply(*inputs):
@@ -19,6 +16,7 @@ class Function:
 
     def backward(self, *grad_outputs):
         raise NotImplementedError
+
 
 class Add(Function):
     @staticmethod
